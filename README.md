@@ -14,4 +14,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## screencapture
 
-![screencapture](/screencapture-localhost-3000-2021-11-02-22_45_40.png)
+![screencapture](https://github.com/mahmoudabdelaziz1993/Next_Typescript_tailwindcss/blob/main/public/screencapture-localhost-3000-2021-11-02-22_45_40.png?raw=true)
