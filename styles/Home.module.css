@@ -20,7 +20,7 @@
 }
 
 .caption {
-  @apply max-w-xs text-sm text-gray-600;
+  @apply max-w-sm text-sm text-gray-600;
 }
 .badg {
   @apply px-2 py-1 mr-2 text-sm text-gray-200 bg-gray-600 rounded-lg;
