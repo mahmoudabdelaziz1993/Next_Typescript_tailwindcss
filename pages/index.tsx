@@ -19,31 +19,40 @@ import BooksPag from "../components/BooksPag";
 import { data } from "autoprefixer";
 
 const Home: NextPage<{ data: Gutendex }> = (props) => {
-  console.log(props);
-
   const router = useRouter();
   return (
-    <div className={styles.page}>
-      <div className={styles.grid_container}>
-        {props.data.results.map((data: Result) => (
-          <Book
-            key={data.id}
-            title={data.title}
-            subjects={data.subjects}
-            download_count={data.download_count}
-            languages={data.languages}
-            authors={data.authors}
-            id={data.id}
-            translators={[]}
-            bookshelves={[]}
-            copyright={false}
-            media_type={data.media_type}
-            formats={data.formats}
-          />
-        ))}
+    <>
+      <div className={styles.page}>
+        <div className={styles.grid_container}>
+          {props.data.results.map((data: Result) => (
+            <Book
+              key={data.id}
+              title={data.title}
+              subjects={data.subjects}
+              download_count={data.download_count}
+              languages={data.languages}
+              authors={data.authors}
+              id={data.id}
+              translators={[]}
+              bookshelves={[]}
+              copyright={false}
+              media_type={data.media_type}
+              formats={data.formats}
+            />
+          ))}
+        </div>
+        <BooksPag next={props.data.next} previous={props.data.previous} />
       </div>
-      <BooksPag next={props.data.next} previous={props.data.previous} />
-    </div>
+      <div className="flex items-center justify-center text-base bg-red-700 text-black">
+        &copy;2021
+        <a
+          className="ml-2  font-semibold"
+          href="https://mahmoudabdelaziz1993.github.io/Demo/"
+        >
+          Mahmoud Abdelaziz
+        </a>{" "}
+      </div>
+    </>
   );
 };
 
@@ -53,8 +62,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   res,
 }) => {
   const Page = query.page || 1;
-  // const limit = query.Limit || 10;
-  console.log(Page);
+
   try {
     const result = await fetch(`https://gutendex.com/books/?page=${Page}`);
     if (result.status !== 200) {
