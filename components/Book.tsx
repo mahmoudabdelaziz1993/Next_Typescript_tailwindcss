@@ -12,10 +12,10 @@ const Book: FunctionComponent<Result> = ({
 }) => {
   return (
     <div className="flex flex-col flex-wrap h-full px-4 py-1 bg-black divide-y divide-gray-700">
-      <h3 className="h-20 mb-4 text-4xl text-red-700 line-clamp-2">{title}</h3>
+      <h3 className="h-20 my-4 text-4xl text-red-700 line-clamp-2">{title}</h3>
       {/* subjects */}
       <div className="flex-grow">
-        <h3 className="mb-2 text-lg text-gray-600">Authors</h3>
+        <h3 className="mb-2  text-lg text-gray-600">Authors</h3>
         <div className="flex flex-wrap gap-4">
           {authors.map((author) => (
             <div className="mb-1" key={author.name}>

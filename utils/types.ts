@@ -4,7 +4,10 @@ export interface Gutendex {
     previous: string;
     results:  Result[];
 }
-
+export interface pagination {
+    next: string;
+    previous : string;
+}
 export interface Result {
     id:             number;
     title:          string;
