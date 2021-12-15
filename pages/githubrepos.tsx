@@ -1,10 +1,10 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import styles from "../styles/Books.module.css";
+import styles from "../styles/Home.module.css";
 import { GetServerSideProps } from "next";
+import { type } from "os";
 import { timeDifference } from "../utils/timeConverter";
-import { Gutendex, Author, Formats, Result } from "../utils/types";
 import {
   FaFastForward,
   FaFastBackward,
@@ -12,31 +12,22 @@ import {
   FaStepBackward,
 } from "react-icons/fa";
 import React from "react";
-
+type Data = {
+  total_count: number;
+  Page: number;
+  incomplete_results: boolean;
+  items: any;
+};
 import { useRouter } from "next/router";
-import Book from "../components/Book";
 
-const Home: NextPage<{ data: Gutendex }> = (props) => {
+const Home: NextPage<{ data: Data }> = (props) => {
   console.log(props);
+  const limit = 11;
 
   const router = useRouter();
   return (
     <div className={styles.page}>
       <div className={styles.grid_container}>
-        {props.data.results.map((data: Result) => (
-          <Book
-            key={data.id}
-            title={data.title}
-            subjects={data.subjects}
-            download_count={data.download_count}
-            languages={data.languages}
-            authors={data.authors}
-          />
-        ))}
-      </div>
-
-      {/* grid */}
-      {/* <div className={styles.grid_container}>
         {props.data.items.map(
           ({
             id,
@@ -61,7 +52,7 @@ const Home: NextPage<{ data: Gutendex }> = (props) => {
                   <span className={styles.badg}>
                     {open_issues_count} issues
                   </span>
-                  <p className/={styles.caption}>
+                  <p className={styles.caption}>
                     last update{" "}
                     {timeDifference(new Date(), new Date(updated_at))} by{" "}
                     <strong className="text-blue-900">{owner.login}</strong>
@@ -72,10 +63,7 @@ const Home: NextPage<{ data: Gutendex }> = (props) => {
           )
         )}
       </div>
-      */}
-
-      {/* paggination */}
-      {/* <div className="flex justify-end h-20 "> 
+      <div className="flex justify-end h-20 ">
         <div className="w-16 mr-2 text-lg">Page {props.data.Page}</div>
         <div
           className={`mx-1 text-5xl ${
@@ -147,7 +135,7 @@ const Home: NextPage<{ data: Gutendex }> = (props) => {
         >
           <FaFastForward />
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };
@@ -157,19 +145,21 @@ export const getServerSideProps: GetServerSideProps = async ({
   query,
   res,
 }) => {
-  // const Page = query.Page || 1;
-  // const limit = query.Limit || 10;
+  const Page = query.Page || 1;
+  const limit = query.Limit || 10;
 
   try {
-    const result = await fetch(`https://gutendex.com/books/`);
+    const result = await fetch(
+      `https://api.github.com/search/repositories?q=created:%3E2017-10-22&sort=stars&order=desc&page=${Page}&per_page=${limit}`
+    );
     if (result.status !== 200) {
       throw new Error("failed fetching data");
     }
-    const data: Gutendex = await result.json();
+    const data = await result.json();
 
     return {
       props: {
-        data: { ...data },
+        data: { ...data, Page },
       },
     };
   } catch {
